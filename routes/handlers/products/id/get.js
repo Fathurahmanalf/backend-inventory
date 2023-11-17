@@ -9,6 +9,5 @@ module.exports = async (req, res) => {
             success: false,
             message: "Product not found"
         });
-
     return res.json(product)    
 }

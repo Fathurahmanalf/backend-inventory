@@ -12,11 +12,25 @@ module.exports = async (req, res) => {
             message: "Name Product data must be provided"
         });
 
-    const dataProduct = {versionId:body.versionId, productName:body.productName, userId:req.user.id}
-    const dbProduct = await Product.create(dataProduct)
+    // Validasi Product Name sudah ada
+    const productNameAxist = await Product.findAll({
+        where:{productName:body.productName}
+    })
+    console.log("PRODUCT AXIST========>",productNameAxist)
 
-    const dataLog = {productId:dbProduct.id, qty:body.qty, userId:req.user.id}
-    const dbLog = await Log.create(dataLog)
+    if(productNameAxist.length==0){
+
+        const dataProduct = {versionId:body.versionId, productName:body.productName, userId:req.user.id}
+        const dbProduct = await Product.create(dataProduct)
+    
+        const dataLog = {productId:dbProduct.id, qty:body.qty, userId:req.user.id}
+        const dbLog = await Log.create(dataLog)
+
+    }else{
+        const dataLog = {productId:productNameAxist[0].id, qty:body.qty, userId:req.user.id}
+        const dbLog = await Log.create(dataLog)    
+    }
+    
     
     return res.json({})
 }
