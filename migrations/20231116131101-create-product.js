@@ -29,7 +29,7 @@ module.exports = {
         },
         allowNull: false
       },
-      product_name: {
+      productName: {
         type: Sequelize.STRING
       },
       createdAt: {
